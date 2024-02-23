@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import CodeMirror from "@uiw/react-codemirror";
 import { vscodeDark } from "@uiw/codemirror-theme-vscode";
 import { python } from '@codemirror/lang-python';
+import data from './texts.json';
 
 import {
     Flex,
@@ -16,22 +17,6 @@ import {
 const WrongCodeExample = () => {
     const [isLargerThanLG] = useMediaQuery('(min-width: 62em)');
     const { isOpen, onToggle } = useDisclosure();
-
-    const code = `def factorial(n):
-  # Base case: if n is 0, the factorial is 1
-  if n == 1:  # Mistake here
-      return 1
-  # Recursive case: n! = n * (n-1)!
-  else:
-      return n * factorial(n-1)
-
-# Example usage
-print(factorial(5))  # What will this output be?
-
-`
-    const codeTaskDescription = `
-  In the provided Python function factorial, there's a small but crucial mistake that affects its functionality. Your task is to review the code carefully, identify the mistake, and correct it.
-    `;
 
     let [value, setValue] = useState('')
 
@@ -59,13 +44,13 @@ print(factorial(5))  # What will this output be?
                 opacity={0.7}
                 w={isLargerThanLG ? '60%' : 'full'}
             >
-                {codeTaskDescription}
+                {data.texts.wrongCodeDescription}
             </Text>
             {/* Flex container for CodeMirror blocks */}
             <Flex justifyContent="space-around" w="60%">
                 <Box flex="1" mr={2}>
                     <CodeMirror
-                        value={code}
+                        value={data.texts.wrondCode}
                         height="250px"
                         theme={vscodeDark}
                         options={{ lineNumbers: true }}
@@ -87,10 +72,10 @@ print(factorial(5))  # What will this output be?
                     placeholder='Explain what you think was wrong with the code'
                     size='sm'
                 />
-<Box mt="6">
-                <Button onClick={onToggle} mb={4} textAlign="right">
-                    SUBMIT
-                </Button></Box>
+                <Box mt="6">
+                    <Button onClick={onToggle} mb={4} textAlign="right">
+                        SUBMIT
+                    </Button></Box>
             </Box>
 
         </Flex>

@@ -21,6 +21,7 @@ import {
 } from '@chakra-ui/react'
 import React, { useState } from 'react';
 import matryoushka from '../assets/matryoushka.bin';
+import data from './texts.json';
 
 
 const BasicExplanation = () => {
@@ -28,31 +29,9 @@ const BasicExplanation = () => {
     const toast = useToast();
     const [checkedItems, setCheckedItems] = useState([]);
 
-    const baseCasetext = `
-    Recursion is a process where a task solves itself by breaking it down into smaller, identical tasks, until reaching a simple case it can directly solve.
-    `;
-
-    const detailedCasetext = `
-    Picture counting a stack of books not all at once, but by counting one book and asking a friend to count the remainder with the same strategy. 
-    This process repeats, with each friend taking one book and passing the rest on, until only one book is left—an easy count.
-    The last friend starts by reporting their count to the friend before them, and this continues back to you, combining each count along the way to get the total. 
-    This method effectively breaks down and solves a problem through repetition and aggregation.
-    `;
-
     const handleCheckboxChange = (values) => {
         setCheckedItems(values);
     };
-
-    const options = [
-        { id: 'option1', name: 'Matryoshka dolls (Russian nesting dolls) opening one after another.' },
-        { id: 'option2', name: 'Cleaning a house room by room.' },
-        { id: 'option3', name: 'A mirror reflecting another mirror.' },
-        { id: 'option4', name: 'The process of making a sandwich.' },
-        { id: 'option5', name: 'A family tree tracing back generations.' },
-        { id: 'option6', name: 'Water flowing down a river.' },
-        { id: 'option7', name: 'The structure of a fractal, where each part is a smaller copy of the whole.' },
-        { id: 'option8', name: 'A countdown timer that subtracts one second until reaching zero.' },
-    ];
 
     const submitForm = () => {
         const response = {
@@ -84,7 +63,7 @@ const BasicExplanation = () => {
                 opacity={0.7}
                 w={isLargerThanLG ? '60%' : 'full'}
             >
-                {baseCasetext}
+                {data.texts.definition}
             </Text>      
                 <Accordion allowMultiple w="30%">
                     <AccordionItem>
@@ -97,7 +76,7 @@ const BasicExplanation = () => {
                             </AccordionButton>
                         </h2>
                         <AccordionPanel pb={4} w="80%" m="auto">
-                            {detailedCasetext}
+                            {data.texts.detailDefinition}
                         </AccordionPanel>
                     </AccordionItem>
                     <AccordionItem>
@@ -137,7 +116,7 @@ const BasicExplanation = () => {
                 <FormLabel>Choose the recursion cases:</FormLabel>
                 <CheckboxGroup colorScheme="blue" onChange={handleCheckboxChange}>
                     <Stack pl={6} mt={2} spacing={2} mb={8}>
-                        {options.map((option) => (
+                        {data.texts.options.map((option) => (
                             <Checkbox key={option.id} value={option.id}>{option.name}</Checkbox>
                         ))}
                     </Stack>

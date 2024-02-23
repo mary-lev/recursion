@@ -4,12 +4,12 @@ import { vscodeDark } from "@uiw/codemirror-theme-vscode";
 import { python } from '@codemirror/lang-python';
 
 import {
-    Flex,
-    Box,
-    Text,
-    Button,
-    useMediaQuery,
-    Collapse, useDisclosure
+  Flex,
+  Box,
+  Text,
+  Button,
+  useMediaQuery,
+  Collapse, useDisclosure
 } from '@chakra-ui/react';
 
 import React, { useState } from 'react';
@@ -17,11 +17,9 @@ import data from './texts.json';
 
 
 const Implementation = () => {
-    const [isLargerThanLG] = useMediaQuery('(min-width: 62em)');
-    const { isOpen, onToggle } = useDisclosure();
-    // todo: add hints
-    const code = "def fibonacci():"
-    const codeOutputText = "# Here will be the output of your code"
+  const [isLargerThanLG] = useMediaQuery('(min-width: 62em)');
+  const { isOpen, onToggle } = useDisclosure();
+  // todo: add hints
 
   return (
     <Flex
@@ -44,11 +42,11 @@ const Implementation = () => {
       >
         {data.texts.implementationDescription}
       </Text>
-       {/* Flex container for CodeMirror blocks */}
-       <Flex justifyContent="space-around" w="70%">
+      {/* Flex container for CodeMirror blocks */}
+      <Flex justifyContent="space-around" w="70%">
         <Box flex="1" mr={2}>
           <CodeMirror
-            value={code}
+            value={data.texts.implementationCode}
             height="200px"
             theme={vscodeDark}
             options={{ lineNumbers: true }}
@@ -57,7 +55,7 @@ const Implementation = () => {
         </Box>
         <Box flex="1" ml={2}>
           <CodeMirror
-            value={codeOutputText}
+            value="#Here will be the output of your code"
             height="200px"
             theme={vscodeDark}
             options={{ lineNumbers: true }}

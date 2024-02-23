@@ -6,7 +6,7 @@ import CodeExample from './components/CodeExample';
 import Implementation from './components/Implementation';
 import WrongCodeExample from './components/WrongCodeExample';
 import Footer from './components/Footer';
-import BaseExcersize from './components/BasicExcersize';
+import BasicTask from './components/BasicExcersize';
 import DrawerComponent from './components/DrawerComponent';
 import Nav from './components/NavSteps';
 
@@ -21,7 +21,7 @@ function App() {
       <BasicExplanation />
       <CodeExample />
       <WrongCodeExample />
-      <BaseExcersize />
+      <BasicTask />
       <Implementation />
       <ContactUs />
       <Footer />

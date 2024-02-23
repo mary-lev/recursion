@@ -26,8 +26,8 @@ const Nav = ({ onOpen, ref }) => {
         { title: '', description: 'What is it?' },
         { title: '', description: 'Code Example' },
         { title: '', description: 'Find a Bug!' },
-        { title: '', description: "Base Excersize" },
-        { title: '', description: "Fibonacci" },
+        { title: '', description: "Basic Excersize" },
+        { title: '', description: "Real Implementation" },
         { title: '', description: "Success!" },
 
     ]

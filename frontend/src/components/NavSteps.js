@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import {
     Text,
     useColorModeValue,
-    useMediaQuery,
     Box,
     Step,
     StepDescription,
@@ -20,7 +19,6 @@ import {
 const Nav = ({ onOpen, ref }) => {
     const [scroll, setScroll] = useState(false);
     const navBg = useColorModeValue('white', 'blackAlpha.200');
-    const [isLargerThanMD] = useMediaQuery('(min-width: 48em)');
 
     const steps = [
         { title: '', description: 'What is it?' },

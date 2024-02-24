@@ -15,7 +15,7 @@ import {
 const BasicTask = () => {
   const [isLargerThanLG] = useMediaQuery('(min-width: 62em)');
   const { isOpen, onToggle } = useDisclosure();
-  const code = "print('Hello World!');"
+
   return (
     <Flex
       w="full"

@@ -33,17 +33,41 @@ const BasicExplanation = () => {
         setCheckedItems(values);
     };
 
-    const submitForm = () => {
-        const response = {
-            title: 'Message sent!🚀',
-            description: 'Thank you for contacting us!',
-            status: 'success',
-            duration: 9000,
-            isClosable: true,
+    const submitForm = async () => {
+        const payload = {
+            checked_items: checkedItems,
         };
-        return toast(response);
+    
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/check`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(payload),
+        });
 
+        const responseData = await response.json();
+    
+        if (response.ok) {
+            
+            toast({
+                title: 'Form submitted successfully!',
+                description: responseData.message,
+                status: 'success',
+                duration: 9000,
+                isClosable: true,
+            });
+        } else {
+            toast({
+                title: 'Submission failed',
+                description: responseData.message,
+                status: 'error',
+                duration: 9000,
+                isClosable: true,
+            });
+        }
     };
+    
     return (
         <Flex
             w="full"

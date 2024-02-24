@@ -16,7 +16,7 @@ import {
 
 const WrongCodeExample = () => {
     const [isLargerThanLG] = useMediaQuery('(min-width: 62em)');
-    const { isOpen, onToggle } = useDisclosure();
+    const { onToggle } = useDisclosure();
 
     let [value, setValue] = useState('')
 

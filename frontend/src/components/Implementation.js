@@ -12,7 +12,7 @@ import {
   Collapse, useDisclosure
 } from '@chakra-ui/react';
 
-import React, { useState } from 'react';
+import React from 'react';
 import data from './texts.json';
 
 
@@ -40,7 +40,7 @@ const Implementation = () => {
         opacity={0.7}
         w={isLargerThanLG ? '60%' : 'full'}
       >
-        {data.texts.implementationDescription}
+       <Markdown>{data.texts.implementationDescription}</Markdown>
       </Text>
       {/* Flex container for CodeMirror blocks */}
       <Flex justifyContent="space-around" w="70%">

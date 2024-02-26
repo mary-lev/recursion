@@ -1,4 +1,8 @@
 import React, { useRef } from 'react';
+import useSessionToken from './hooks/useSessionToken';
+import useQuiz from './hooks/useQuiz';
+import SessionTokenContext from './SessionTokenContext';
+import QuizContext from './QuizContext';
 import { useDisclosure, Box } from '@chakra-ui/react';
 import ContactUs from './components/ContactUs';
 import BasicExplanation from './components/Definition';
@@ -14,19 +18,25 @@ import Nav from './components/NavSteps';
 function App() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = useRef();
+  const sessionToken = useSessionToken();
+  const quiz = useQuiz();
 
   return (
-    <Box>
-      <Nav ref={btnRef} onOpen={onOpen} />
-      <BasicExplanation />
-      <CodeExample />
-      <WrongCodeExample />
-      <BasicTask />
-      <Implementation />
-      <ContactUs />
-      <Footer />
-      <DrawerComponent isOpen={isOpen} onClose={onClose} btnRef={btnRef} />
-    </Box>
+    <SessionTokenContext.Provider value={sessionToken}>
+      <QuizContext.Provider value={quiz}>
+      <Box>
+        <Nav ref={btnRef} onOpen={onOpen} />
+        <BasicExplanation />
+        <CodeExample />
+        <WrongCodeExample />
+        <BasicTask />
+        <Implementation />
+        <ContactUs />
+        <Footer />
+        <DrawerComponent isOpen={isOpen} onClose={onClose} btnRef={btnRef} />
+      </Box>
+      </QuizContext.Provider>
+    </SessionTokenContext.Provider>
   );
 }
 

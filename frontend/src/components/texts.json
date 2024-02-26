@@ -3,14 +3,14 @@
         "definition": "Recursion is a process where a task solves itself by breaking it down into smaller, identical tasks, until reaching a simple case it can directly solve.",
         "detailDefinition": "Picture counting a stack of books not all at once, but by counting one book and asking a friend to count the remainder with the same strategy. \nThis process repeats, with each friend taking one book and passing the rest on, until only one book is left—an easy count.\nThe last friend starts by reporting their count to the friend before them, and this continues back to you, combining each count along the way to get the total. \nThis method effectively breaks down and solves a problem through repetition and aggregation.",
         "options": [
-            { "id": "option1", "name": "Matryoshka dolls (Russian nesting dolls) opening one after another." },
-            { "id": "option2", "name": "Cleaning a house room by room." },
-            { "id": "option3", "name": "A mirror reflecting another mirror." },
-            { "id": "option4", "name": "The process of making a sandwich." },
-            { "id": "option5", "name": "A family tree tracing back generations." },
-            { "id": "option6", "name": "Water flowing down a river." },
-            { "id": "option7", "name": "The structure of a fractal, where each part is a smaller copy of the whole." },
-            { "id": "option8", "name": "A countdown timer that subtracts one second until reaching zero." }
+            { "id": "1", "name": "Matryoshka dolls (Russian nesting dolls) opening one after another." },
+            { "id": "2", "name": "Cleaning a house room by room." },
+            { "id": "3", "name": "A mirror reflecting another mirror." },
+            { "id": "4", "name": "The process of making a sandwich." },
+            { "id": "5", "name": "A family tree tracing back generations." },
+            { "id": "6", "name": "Water flowing down a river." },
+            { "id": "7", "name": "The structure of a fractal, where each part is a smaller copy of the whole." },
+            { "id": "8", "name": "A countdown timer that subtracts one second until reaching zero." }
         ],
         "codeExample": " Using the book counting analogy for the factorial function:\n- Big Task: Find the factorial of a number, say 5 (which means 5 * 4 * 3 * 2 * 1).\n- Break It Down: To find 5!, find 4! first (which is 4 * 3 * 2 * 1), then multiply that by 5.\n- Stopping Point: If we reach 1, we know the factorial of 1 is just 1, so we don't need to break it down further.\n- Combine Solutions: Multiply each step's result by the next number up until we reach our original number.",
         "pythonCodeExample": "def factorial(n):\n#Base case: if n is 0, the factorial is 1\nif n == 0:\n    return 1\n# Recursive case: n! = n * (n-1)!\n else:\n    return n * factorial(n-1)\n\n# Example usage\nprint(factorial(5))  # Output: 120",
@@ -24,5 +24,23 @@
         "implementationInstructions": "    Function Signature: Define the function as def reverse_string(s):, where s is the string to be reversed.\n Base Case: If the string is empty or consists of a single character, it is its own reverse.\n    Recursive Step: For a string of length n, the reversed string can be constructed by appending the first character to the reverse of the substring that excludes this character.",
         "implementationHints": "",
         "implementationCode": "def reverse_string(s):\n#Write your code here"
+    },
+    "tasks": {
+        "quiz": {
+            "name": "Recursion Quiz",
+            "question": "Which of the following best represents the concept of recursion?",
+            "options": [
+                { "id": "1", "name": "Matryoshka dolls (Russian nesting dolls) opening one after another." },
+                { "id": "2", "name": "Cleaning a house room by room." },
+                { "id": "3", "name": "A mirror reflecting another mirror." },
+                { "id": "4", "name": "The process of making a sandwich." },
+                { "id": "5", "name": "A family tree tracing back generations." },
+                { "id": "6", "name": "Water flowing down a river." },
+                { "id": "7", "name": "The structure of a fractal, where each part is a smaller copy of the whole." },
+                { "id": "8", "name": "A countdown timer that subtracts one second until reaching zero." }
+            ],
+            "correctAnswers": "1, 5, 7, 8",
+            "successMessage": "Great job! You've correctly identified the examples that best represent the concept of recursion."
+        }
     }
 }

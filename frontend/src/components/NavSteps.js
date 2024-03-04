@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     Text,
     useColorModeValue,
@@ -12,13 +12,16 @@ import {
     StepStatus,
     StepTitle,
     Stepper,
-    useSteps,
 } from '@chakra-ui/react';
 
+import { useStepStatus } from '../contexts/StepStatusContext';
 
-const Nav = ({ onOpen, ref }) => {
-    const [scroll, setScroll] = useState(false);
+
+const Nav = () => {
+    const scroll = useState(false);
     const navBg = useColorModeValue('white', 'blackAlpha.200');
+    const { completedSteps } = useStepStatus();
+    const [activeStep, setActiveStep] = useState(0);
 
     const steps = [
         { title: '', description: 'What is it?' },
@@ -27,19 +30,18 @@ const Nav = ({ onOpen, ref }) => {
         { title: '', description: "Basic Excersize" },
         { title: '', description: "Real Implementation" },
         { title: '', description: "Success!" },
-
     ]
-    const { activeStep, setActiveStep } = useSteps({
-        index: 1,
-        count: steps.length,
-    })
 
-    const changeScroll = () =>
-        document.body.scrollTop > 80 || document.documentElement.scrollTop > 80
-            ? setScroll(true)
-            : setScroll(false);
+    useEffect(() => {
+        if (completedSteps.length > 0) {
+            const lastCompletedStep = completedSteps[completedSteps.length - 1];
+            const nextStep = lastCompletedStep + 1;
 
-    window.addEventListener('scroll', changeScroll);
+            if (nextStep < steps.length) {
+                setActiveStep(nextStep);
+            }
+        }
+    }, [completedSteps, steps.length]);
 
     return (
         <Box
@@ -55,17 +57,24 @@ const Nav = ({ onOpen, ref }) => {
             w="full"
             bg={navBg}
         >
-            <Text fontSize="xl" fontWeight="bold" textAlign="center" pb="3">
+            <Text
+                fontSize="2xl" 
+                fontWeight="bold"
+                textAlign="center"
+                pb="3"
+                fontFamily="'Roboto', sans-serif"
+            >
                 Do you know Recursion?
             </Text>
             <Stepper size='lg' index={activeStep}>
                 {steps.map((step, index) => (
-                    <Step key={index} onClick={() => setActiveStep(index)}>
+                    <Step key={index}>
                         <StepIndicator>
                             <StepStatus
-                                complete={<StepIcon />}
-                                incomplete={<StepNumber />}
-                                active={<StepNumber />}
+                                complete={completedSteps.includes(index) ? <StepIcon /> : <StepIcon />}
+                                incomplete={!completedSteps.includes(index) ? <StepNumber /> : "test"}
+                                // active={<StepNumber />}
+                                active={completedSteps.includes(index) ? <StepIcon /> : <StepNumber />}
                             />
                         </StepIndicator>
 

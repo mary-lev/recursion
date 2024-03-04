@@ -13,7 +13,7 @@ const Footer = () => {
       justifyContent="center"
     >
       <Text mb="3">
-        MVP for online tutorial on Recursion
+      Online Recursion Tutorial Prototype
       </Text>
       <Text opacity="0.5">Buit with Chakra UI</Text>
     </Flex>

@@ -24,32 +24,77 @@ import {
 import React, { useState, useContext } from 'react';
 import matryoushka from '../assets/matryoushka.bin';
 import data from './texts.json';
-import SessionTokenContext from '../SessionTokenContext';
-import QuizContext from '../QuizContext';
+import SessionTokenContext from '../contexts/SessionTokenContext';
+import QuizContext from '../contexts/QuizContext';
+import { useStepStatus } from '../contexts/StepStatusContext';
 import Markdown from 'react-markdown';
 
 
 
 const BasicExplanation = () => {
     const [isLargerThanLG] = useMediaQuery('(min-width: 62em)');
+    const { markStepCompleted } = useStepStatus();
     const toast = useToast();
     const [checkedItems, setCheckedItems] = useState([]);
+    const [showHint, setShowHint] = useState(false);
+    const [hintRequested, setHintRequested] = useState(false);
 
     const sessionToken = useContext(SessionTokenContext);
     const quiz = useContext(QuizContext);
-    console.log("Quiz", quiz.options);
-    const [ feedback, setFeedback ] = useState([]);
+    const [feedback, setFeedback] = useState("");
 
 
     const handleCheckboxChange = (values) => {
         setCheckedItems(values);
     };
 
+    const handleRequestHint = () => {
+        setHintRequested(true); // Indicate that the hint was requested
+    };
+
     const submitForm = async () => {
+        setHintRequested(false);
+        setFeedback("");
         const payload = {
             checked_items: checkedItems,
-            task: quiz.id,
+            task: 1,
         };
+       
+        const correctAnswersArray = quiz.correct_answers.split(", ");
+
+        const isCorrect = checkedItems.every(item => correctAnswersArray.includes(item)) &&
+                      correctAnswersArray.every(item => checkedItems.includes(item));
+
+
+        console.log("Is correct: ", isCorrect);
+
+        if (isCorrect) {
+
+            toast({
+                title: 'Great job!',
+                description: quiz.success_message,
+                status: 'success',
+                duration: 9000,
+                isClosable: true,
+            });
+            setHintRequested(true);
+            setFeedback(quiz.success_message);
+            markStepCompleted(0);
+            console.log("Marked step as completed", feedback);
+
+            return;
+
+        } else {
+            toast({
+                title: 'Submission failed',
+                description: "You can use hints if it's too hard!",
+                status: 'error',
+                duration: 9000,
+                isClosable: true,
+            });
+            setFeedback("Not just yet! Try again!");
+            setShowHint(true);
+        }
 
         const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/check`, {
             method: 'POST',
@@ -80,6 +125,8 @@ const BasicExplanation = () => {
                 duration: 9000,
                 isClosable: true,
             });
+            setShowHint(true);
+            
         }
     };
 
@@ -122,20 +169,7 @@ const BasicExplanation = () => {
                     <h2>
                         <AccordionButton>
                             <Box as="span" flex='1' textAlign='left'>
-                                Draw it!
-                            </Box>
-                            <AccordionIcon />
-                        </AccordionButton>
-                    </h2>
-                    <AccordionPanel pb={4} w="80%" m="auto">
-                        <Img src={matryoushka} alt="Recursion" width={{ base: "100px", md: "150px", lg: "200px" }} />
-                    </AccordionPanel>
-                </AccordionItem>
-                <AccordionItem>
-                    <h2>
-                        <AccordionButton>
-                            <Box as="span" flex='1' textAlign='left'>
-                                Video?
+                                Visualize it!
                             </Box>
                             <AccordionIcon />
                         </AccordionButton>
@@ -161,26 +195,40 @@ const BasicExplanation = () => {
                         ))}
                     </Stack>
                 </CheckboxGroup>
+                <Flex mt="4" justifyContent="start" gap="4">
                 <Button
                     colorScheme="blue"
                     size="lg"
                     textAlign="left"
-                    width="200px"
+                    width="150px"
                     type="submit"
                     onClick={submitForm}
                 >
                     SUBMIT
                 </Button>
+                {showHint && ( // Conditionally render the "Wanna hint?" button
+                <Button
+                    colorScheme="teal"
+                    size="lg"
+                    textAlign="left"
+                    width="150px"
+                    type="submit"
+                    onClick={handleRequestHint} // Assuming your quiz context includes a hint
+                >
+                    HELP?
+                </Button>
+            )}
+            </Flex>
             </FormControl>
-            {feedback.length > 0 ? (
-  <Box w="60%">
-    <Card size='md' mt="6" style={{ border: '2px solid #007bff'}}>
-      <CardBody>
-        <Text><Markdown>{feedback}</Markdown></Text>
-      </CardBody>
-    </Card>
-  </Box>
-) : null}   
+            {(feedback && hintRequested) && (
+                <Box w="60%">
+                    <Card size='md' mt="6" style={{ border: '2px solid #007bff'}}>
+                        <CardBody>
+                            <Text><Markdown>{feedback}</Markdown></Text>
+                        </CardBody>
+                    </Card>
+                </Box>
+            )}
 
         </Flex>
     );

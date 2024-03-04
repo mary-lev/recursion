@@ -1,5 +1,3 @@
-
-
 const executeCode = async (code, sessionToken, task_id) => {
     console.log(typeof code, code)
     try {
@@ -26,3 +24,26 @@ const executeCode = async (code, sessionToken, task_id) => {
 };
 
 export { executeCode };
+
+const requestFeedback = async (code, task_name, sessionToken) => {
+    const payload = {
+      code: code,
+      task_name: task_name,
+    };
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/help`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        'Authorization': `Bearer ${sessionToken}`,
+      },
+      body: JSON.stringify(payload),
+    });
+    const data = await response.json(); // Parse the JSON data from the response
+    if (response.ok) {
+      return data.hint;
+    } else {
+      return null;
+    }
+  }
+
+export { requestFeedback };

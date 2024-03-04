@@ -29,6 +29,7 @@ const CodeExample = ({ taskName }) => {
   const [hintProvided, setHintProvided] = useState(false);
   const [hintRequested, setHintRequested] = useState(false);
   const [feedback, setFeedback] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleCodeChange = (value, viewUpdate) => {
     setCode(value); // Update the code state with the new value
@@ -43,7 +44,6 @@ const CodeExample = ({ taskName }) => {
       code: code,
       task_name: current_task.slug,
     };
-    console.log("Payload", payload);
     const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/help`, {
       method: "POST",
       headers: {
@@ -53,14 +53,14 @@ const CodeExample = ({ taskName }) => {
       body: JSON.stringify(payload),
     });
     const data = await response.json(); // Parse the JSON data from the response
-    console.log("Response from server:", data);
     if (response.ok) {
       setFeedback(data.hint);
+      setIsLoading(false);
     }
   }
 
   const submitForm = async () => {
-    setHintRequested(false);
+    setHintRequested(true);
     setFeedback("");
 
     const response = await executeCode(code, sessionToken, current_task.slug); // Assuming executeCode is an async function
@@ -76,6 +76,7 @@ const CodeExample = ({ taskName }) => {
           // don't change the state if the output is the same as the default
           console.log("Output is the same as the default");
           setFeedback(data.texts.using_default_code)
+          setIsLoading(false);
           setHintRequested(true);
         }
 
@@ -88,6 +89,7 @@ const CodeExample = ({ taskName }) => {
 
       } else {
         setOutput(response.output);
+        setIsLoading(true);
         setHintProvided(true);
         requestFeedback();
       }
@@ -165,7 +167,15 @@ const CodeExample = ({ taskName }) => {
           </Button>
         )}
       </Flex>
-      {(feedback && hintRequested) && (
+      {isLoading ? (
+        <Box w="60%">
+          <Card size='md' mt="6" style={{ border: '2px solid #007bff' }}>
+            <CardBody>
+              <Text>Loading feedback...</Text>
+            </CardBody>
+          </Card>
+        </Box>
+      ) : (feedback && hintRequested) && (
         <Box w="60%">
           <Card size='md' mt="6" style={{ border: '2px solid #007bff' }}>
             <CardBody>

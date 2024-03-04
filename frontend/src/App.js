@@ -18,7 +18,7 @@ import { useRrwebRecorder } from './hooks/useRrwebRecorder';
 function App() {
   const sessionToken = useSessionToken();
   const quiz = useQuiz();
-  useRrwebRecorder();
+  // useRrwebRecorder();
 
   return (
     <SessionTokenContext.Provider value={sessionToken}>
